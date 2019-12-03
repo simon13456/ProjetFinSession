@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace DigitalRuby.LightningBolt
 {
@@ -187,7 +188,15 @@ namespace DigitalRuby.LightningBolt
                 offsetAmount *= 0.5f;
             }
         }
-
+        public void mort()
+        {
+            StartCoroutine(VieEclair());
+        }
+        IEnumerator VieEclair()
+        {
+            yield return new WaitForSeconds(5f);
+            Destroy(this);
+        }
         public void RandomVector(ref Vector3 start, ref Vector3 end, float offsetAmount, out Vector3 result)
         {
             if (orthographic)

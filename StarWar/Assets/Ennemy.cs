@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class Ennemy : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private player _player = default;
+
+    Vector3 playerPos;
+
+
     void Start()
     {
-        
+        _player = FindObjectOfType<player>();
+
     }
 
-    // Update is called once per frame
+
+
     void Update()
     {
-        
+        Move();
+    }
+
+    private void Move()
+    {
+        playerPos = _player.transform.position;
+
+        transform.position = Vector3.MoveTowards(transform.position, playerPos, Time.deltaTime * 2f);
+
+
     }
 }
