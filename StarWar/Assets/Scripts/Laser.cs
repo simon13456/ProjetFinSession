@@ -19,10 +19,14 @@ public class Laser : MonoBehaviour
         target = position - transform.position;
         GetComponent<Rigidbody2D>().velocity = target * Time.deltaTime * 150f;
         transform.eulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * getAngle()-90);
-        
+        StartCoroutine(seekAndDestroy());
     }
 
-    
+    IEnumerator seekAndDestroy()
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(this.gameObject);
+    }
 
     void Update()
     {

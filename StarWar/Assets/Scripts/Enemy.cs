@@ -5,12 +5,13 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     private Player _player = default;
-    private float _vie = 1;
+    private int _vie = 1;
     Vector3 playerPos;
   
     
     void Start()
     {
+        GetComponentInChildren<HealthBar>().NbrVie(_vie);
         _player = FindObjectOfType<Player>();
         
     }
@@ -35,15 +36,28 @@ public class Enemy : MonoBehaviour
         {
             
             _player.Damage();
-            Destroy(this.gameObject);
+            this.Damage();
         }
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            this.Damage();
         }
     }
-    
+    private void Damage()
+    {
+        _vie--;
+
+        if (_vie < 1)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            GetComponentInChildren<HealthBar>().Damage();
+        }
+
+    }
 
 
 }

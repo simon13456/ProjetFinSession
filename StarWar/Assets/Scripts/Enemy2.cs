@@ -9,9 +9,11 @@ public class Enemy2 : MonoBehaviour
     [SerializeField] private GameObject _ELaserPrefab = default;
     bool allowShoot = false;
     Vector3 playerPos;
-    private float _vie = 2;
+    private int _vie = 2;
     void Start()
     {
+        GetComponentInChildren<HealthBar>().NbrVie(_vie);
+
         _player = FindObjectOfType<Player>();
         StartCoroutine(shootHer());
     }
@@ -21,7 +23,7 @@ public class Enemy2 : MonoBehaviour
         while (!allowShoot)
         {
             Fire();
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(3f);
         }
         
     }
@@ -44,14 +46,32 @@ public class Enemy2 : MonoBehaviour
         {
             
             _player.Damage();
-            Destroy(this.gameObject);
+            this.Damage();
         }
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            this.Damage();
         }
     }
+
+
+    private void Damage()
+    {
+        _vie--;
+        
+        if (_vie < 1)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            GetComponentInChildren<HealthBar>().Damage();
+        }
+        
+    }
+
+
 
     private void Orientation()
     {

@@ -9,12 +9,12 @@ public class Player : MonoBehaviour
     Vector3 targetPosition;
     float _vitesse = 10.0f;
     bool isMoving = false;
-    private float _vie = 10f;
+    private int _vie = 10;
 
     void Start()
     {
+        GetComponentInChildren<HealthBar>().NbrVie(_vie);
         
-        //plote
     }
 
     // Update is called once per frame
@@ -55,6 +55,11 @@ public class Player : MonoBehaviour
         {
             Destroy(this.gameObject); 
         }
+        else
+        {
+            GetComponentInChildren<HealthBar>().Damage();
+        }
+        
     }
 
 }
