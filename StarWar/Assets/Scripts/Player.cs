@@ -10,7 +10,9 @@ public class Player : MonoBehaviour
     float _vitesse = 10.0f;
     bool isMoving = false;
     private int _vie = 10;
-
+    private int compteur = 0;
+    private bool machineGun = false;
+    int cMachine = 0;
     void Start()
     {
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
@@ -20,14 +22,33 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //CodeTroll
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            cMachine++;
+            if (cMachine % 2 == 0)
+            {
+                machineGun = true;
+            }
+            else
+            {
+                machineGun = false;
+            }
+        }
+        if (machineGun)
+        {
+            Fire();
+        }
+    //arrete ici
+
 
         if (Input.GetKeyDown(KeyCode.Mouse1)||isMoving)
         { 
             Move();
             isMoving = true;
         }
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        //Input.GetMouseButtonDown(0)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Fire();
         }
@@ -36,11 +57,13 @@ public class Player : MonoBehaviour
     private void Fire()
     {
         Instantiate(_LaserPrefab, transform.position, Quaternion.identity);
+
+        
     }
 
     private void Move()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetMouseButtonDown(1))
         {
             targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             targetPosition.z = 0;           
@@ -50,7 +73,7 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _vie--;
+       _vie--;
         if (_vie < 1)
         {
             Destroy(this.gameObject); 
@@ -58,6 +81,20 @@ public class Player : MonoBehaviour
         else
         {
             GetComponentInChildren<HealthBar>().Damage();
+        }
+        
+    }
+    public void LifeSteal()
+    {
+        compteur++;
+        if (compteur % 3 == 0)
+        {
+            if (_vie < 10)
+            {
+                _vie++;
+                GetComponentInChildren<HealthBar>().Heal();
+            }
+            
         }
         
     }

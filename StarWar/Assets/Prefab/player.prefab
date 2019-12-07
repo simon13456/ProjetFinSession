@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d201ce8e9dce9d4fa9629ef16c0c9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _LaserPrefab: {fileID: 1550519370564014782, guid: 899aa4c4a53557149a979b1b2af1db80,
+  _LaserPrefab: {fileID: 2371777203640829051, guid: 899aa4c4a53557149a979b1b2af1db80,
     type: 3}
 --- !u!61 &-2717287269673124843
 BoxCollider2D:

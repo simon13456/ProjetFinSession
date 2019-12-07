@@ -7,7 +7,7 @@ public class HealthBar : MonoBehaviour
     // Start is called before the first frame update
 
    [SerializeField] private GameObject[] _vie = default;
-    private int compteur = 0;
+    private int compteur;
     void Start()
     {
         
@@ -28,8 +28,19 @@ public class HealthBar : MonoBehaviour
     {
 
         _vie[compteur].SetActive(false);
-        Debug.Log(compteur);
+        
         compteur--;
 
+    }
+
+    public void Heal()
+    {
+
+
+        compteur++;
+        _vie[compteur].SetActive(true);
+        
+        
+        
     }
 }

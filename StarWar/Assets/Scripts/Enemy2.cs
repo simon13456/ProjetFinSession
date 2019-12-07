@@ -9,7 +9,7 @@ public class Enemy2 : MonoBehaviour
     [SerializeField] private GameObject _ELaserPrefab = default;
     bool allowShoot = false;
     Vector3 playerPos;
-    private int _vie = 2;
+   [SerializeField] private int _vie = 2;
     void Start()
     {
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
@@ -48,21 +48,18 @@ public class Enemy2 : MonoBehaviour
             _player.Damage();
             this.Damage();
         }
-        if (other.tag == "Laser")
-        {
-            Destroy(other.gameObject);
-            this.Damage();
-        }
+        
     }
 
 
-    private void Damage()
+    public void Damage()
     {
         _vie--;
         
         if (_vie < 1)
         {
             Destroy(this.gameObject);
+            _player.LifeSteal();
         }
         else
         {
@@ -75,7 +72,7 @@ public class Enemy2 : MonoBehaviour
 
     private void Orientation()
     {
-        transform.eulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * getAngle() - 90);
+        transform.eulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * getAngle());
     }
 
     private float getAngle()
@@ -84,10 +81,10 @@ public class Enemy2 : MonoBehaviour
         float posY = _player.transform.position.y - transform.position.y;
         float angle = Mathf.Atan(posY / posX);
         float angleSupp = 0;
-        if (posX > 0)
+       /* if (posX > 0)
         {
             angleSupp = Mathf.Deg2Rad * 180;
-        }
+        }*/
         angle = (angle + angleSupp);
         return angle;
 

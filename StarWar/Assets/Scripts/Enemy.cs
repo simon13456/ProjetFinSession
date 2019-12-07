@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     private Player _player = default;
     private int _vie = 1;
     Vector3 playerPos;
+    private bool colision = false;
   
     
     void Start()
@@ -25,7 +26,7 @@ public class Enemy : MonoBehaviour
     {
         playerPos = _player.transform.position;
 
-        transform.position = Vector3.MoveTowards(transform.position, playerPos, Time.deltaTime * 2f);
+        transform.position = Vector2.MoveTowards(transform.position, playerPos, Time.deltaTime * 5f);
         
 
     }
@@ -36,21 +37,26 @@ public class Enemy : MonoBehaviour
         {
             
             _player.Damage();
+            colision = true;
             this.Damage();
+            
         }
-        if (other.tag == "Laser")
-        {
-            Destroy(other.gameObject);
-            this.Damage();
-        }
+        
     }
-    private void Damage()
+    public void Damage()
     {
         _vie--;
 
         if (_vie < 1)
         {
+            if (!colision)
+            {
+                _player.LifeSteal();
+            }
             Destroy(this.gameObject);
+            
+            
+
         }
         else
         {

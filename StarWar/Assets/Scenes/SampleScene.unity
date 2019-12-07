@@ -151,7 +151,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 3374985895549044748, guid: 42541acbe9c166341b44509a1bf81506,
     type: 3}
-  _enemyPrefab2: {fileID: 2188095087105252412, guid: 7b77015481ea3814d9caf54523faaa40,
+  _enemyPrefab2: {fileID: 90041417306081721, guid: 4df39d6d859d2f84da1a2fd38b22a6e8,
+    type: 3}
+  _enemyPrefab3: {fileID: 3566134990611779171, guid: ec6d72e17f79a034e86d31b227550bbf,
     type: 3}
 --- !u!4 &367929844
 Transform:
@@ -253,11 +255,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 373920951}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 31.93552, y: 18.014244, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -488,7 +490,7 @@ PrefabInstance:
     - target: {fileID: 8559288587078447768, guid: f653e5bb6eb70644392483145fafa814,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8559288587078447768, guid: f653e5bb6eb70644392483145fafa814,
         type: 3}
