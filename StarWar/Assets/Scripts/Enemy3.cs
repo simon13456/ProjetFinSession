@@ -57,6 +57,7 @@ public class Enemy3 : MonoBehaviour
         {
             Destroy(this.gameObject);
             _player.LifeSteal();
+            _player.AddMana();
         }
         else
         {

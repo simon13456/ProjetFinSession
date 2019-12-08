@@ -9,7 +9,7 @@ public class Enemy2 : MonoBehaviour
     [SerializeField] private GameObject _ELaserPrefab = default;
     bool allowShoot = false;
     Vector3 playerPos;
-   [SerializeField] private int _vie = 2;
+   [SerializeField] private int _vie = 1;
     void Start()
     {
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
@@ -60,6 +60,7 @@ public class Enemy2 : MonoBehaviour
         {
             Destroy(this.gameObject);
             _player.LifeSteal();
+            _player.AddMana();
         }
         else
         {

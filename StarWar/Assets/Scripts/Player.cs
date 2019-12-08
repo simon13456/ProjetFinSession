@@ -10,13 +10,14 @@ public class Player : MonoBehaviour
     float _vitesse = 10.0f;
     bool isMoving = false;
     private int _vie = 10;
+    private int _mana = 12;
     private int compteur = 0;
     private bool machineGun = false;
-    int cMachine = 0;
+    int cMachine = 1;
     void Start()
     {
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
-        
+        GetComponentInChildren<ManaBar>().NbrMana(_mana);
     }
 
     // Update is called once per frame
@@ -47,10 +48,11 @@ public class Player : MonoBehaviour
             Move();
             isMoving = true;
         }
-        //Input.GetMouseButtonDown(0)
-        if (Input.GetKeyDown(KeyCode.Space))
+        //Input.GetKeyDown(KeyCode.Space)
+        if (Input.GetMouseButtonDown(0))
         {
             Fire();
+            SousMana(1);
         }
     }
 
@@ -93,10 +95,34 @@ public class Player : MonoBehaviour
             {
                 _vie++;
                 GetComponentInChildren<HealthBar>().Heal();
-            }
-            
-        }
+            }            
+        }      
+    }
+    private void SousMana(int cout)
+    {
         
+        if (_mana >= cout)
+        {
+            //return un true
+            _mana -= cout;
+            for (int i=0; i < cout; i++)
+           {
+                GetComponentInChildren<ManaBar>().GerardLaflaque();
+            }
+        }
+        else
+        {
+            //return un false
+        }
+
+    }
+    public void AddMana()
+    {
+        if (_mana < 12)
+        {
+            _mana++;
+            GetComponentInChildren<ManaBar>().ajoutMana();
+        }
     }
 
 }
