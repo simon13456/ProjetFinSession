@@ -4,62 +4,62 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemyPrefab = default;
-    [SerializeField] private GameObject _enemyPrefab2 = default;
-    [SerializeField] private GameObject _enemyPrefab3 = default;
-    Vector3 playerPos;
+    [SerializeField] private List<ConfigWave> _configVague;
+    private int _vagueDepart = 0;
     private bool _stopSpawning = false;
-    private int compteur = 0;
-    private float spawnY = 0;
-    private float spawnX = 0f;
-   
-    void Start()
-    {
-        StartSpawning();
-    }
-    public void StartSpawning()
-    {
-        StartCoroutine(SpawnEnemy());
 
-    }
-
-    IEnumerator SpawnEnemy()
+    IEnumerator Start()
     {
-        yield return new WaitForSeconds(5.0f);
-        while (!_stopSpawning)
+
+        do
         {
-            compteur++;
-            if (compteur % 2 == 0)
-            {
-                spawnY = -9f;
-                spawnX = -15f;
-            }
-            else
-            {
-                spawnY = 9f;
-                spawnX = 15f;
-            }
-            if (compteur % 3 == 0)
-            {
-                Vector3 spawnPosition3 = new Vector3(spawnX, Random.Range(-8.5f, 8.5f), 0f);
-                GameObject newEnemy3 = Instantiate(_enemyPrefab3, spawnPosition3, Quaternion.identity);
-            }
-           
-            Vector3 spawnPosition = new Vector3(Random.Range(-16f, 16f), spawnY, 0f);
-            GameObject newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
-           
-            Vector3 spawnPositiond = new Vector3(Random.Range(-16f, 16f), -spawnY, 0f);
-            GameObject newEnemyd = Instantiate(_enemyPrefab, spawnPositiond, Quaternion.identity);
-           
-            Vector3 spawnPosition2 = new Vector3(Random.Range(-15f, 15f), Random.Range(-8.5f,8.5f), 0f);
-           GameObject newEnemy2 = Instantiate(_enemyPrefab2, spawnPosition2, Quaternion.identity);
-            yield return new WaitForSeconds(3f);
+            yield return StartCoroutine(SpawnWaves());
+            yield return new WaitForSeconds(3.5f);
+        } while (_stopSpawning);
+    }
+    
+
+    IEnumerator SpawnWaves()
+    {
+        for(int i = _vagueDepart; i<_configVague.Count; i++)
+        {
+            ConfigWave vagueActuelle = _configVague[i];
+            yield return StartCoroutine(SpawnVagueEnemy(vagueActuelle));
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+
+
+    IEnumerator SpawnVagueEnemy(ConfigWave wave)
+    {
+        for(int i=0; i<wave.GetNbrEnemy(); i++)
+        {
+            GameObject newEnemy = Instantiate(wave.GetPrefabEnemy(), wave.GetWayPoints()[0].transform.position, Quaternion.identity);
+            newEnemy.GetComponent<EnemyPath>().SetConfigVague(wave);
+            yield return new WaitForSeconds(wave.GetTempsEntreSpawn());
+
         }
 
+
+    }
+
+
+    public void stopSpawning()
+    {
+        _stopSpawning = true;
+    }
+
+    public bool ArretJeu()
+    {
+
+        return _stopSpawning;
     }
     // Update is called once per frame
     void Update()
     {
         
     }
-}
+    
+    }
+   

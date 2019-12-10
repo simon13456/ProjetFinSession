@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     private int _vie = 10;
     private int _mana = 12;
     private int compteur = 0;
+    
+
     private bool machineGun = false;
     int cMachine = 1;
     void Start()
@@ -78,7 +80,10 @@ public class Player : MonoBehaviour
        _vie--;
         if (_vie < 1)
         {
-            Destroy(this.gameObject); 
+          
+            mort();
+            Destroy(this.gameObject);
+            
         }
         else
         {
@@ -124,5 +129,12 @@ public class Player : MonoBehaviour
             GetComponentInChildren<ManaBar>().ajoutMana();
         }
     }
+    private void mort()
+    {
+        FindObjectOfType<SpawnManager>().stopSpawning();
+
+    }
+
+
 
 }

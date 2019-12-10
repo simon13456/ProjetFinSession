@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    Vector3 targetPosition;
+    
     float globalPush = 40f;
     Vector3 target;
 
@@ -15,7 +15,6 @@ public class Laser : MonoBehaviour
 
 
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        targetPosition.z = 0f;
         target = position - transform.position;
         GetComponent<Rigidbody2D>().velocity = target * Time.deltaTime * 150f;
         transform.eulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * getAngle() - 90);

@@ -25,18 +25,20 @@ public class Enemy : MonoBehaviour
 
     private void Move()
     {
-        playerPos = _player.transform.position; 
-       
-        float angle = Mathf.Atan(playerPos.y / playerPos.x);
-        float dist = Mathf.Sqrt((Mathf.Pow(playerPos.x, 2)) + (Mathf.Pow(playerPos.y, 2)));
 
-        
-        
-            
-        
-           
-        
-        transform.position = Vector2.MoveTowards(transform.position, playerPos, Time.deltaTime * vitesse);
+        if (!FindObjectOfType<SpawnManager>().ArretJeu())
+        {
+            playerPos = _player.transform.position;
+            float angle = Mathf.Atan(playerPos.y / playerPos.x);
+            float dist = Mathf.Sqrt((Mathf.Pow(playerPos.x, 2)) + (Mathf.Pow(playerPos.y, 2)));
+            transform.position = Vector2.MoveTowards(transform.position, playerPos, Time.deltaTime * vitesse);
+        }
+        else
+        {
+
+            canDash = false;
+        }
+      
     }
     IEnumerator Dash()
     {

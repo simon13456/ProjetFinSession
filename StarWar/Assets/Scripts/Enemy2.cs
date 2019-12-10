@@ -31,7 +31,15 @@ public class Enemy2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Orientation();
+        if (!FindObjectOfType<SpawnManager>().ArretJeu())
+        {
+            Orientation();
+        }
+        else
+        {
+            allowShoot = true;
+        }
+            
         
     }
 

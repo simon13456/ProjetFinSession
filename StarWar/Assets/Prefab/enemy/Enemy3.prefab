@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3566134990611779173}
   - component: {fileID: 3566134990611779170}
   - component: {fileID: 3566134990611779174}
+  - component: {fileID: -5444782584323633413}
   m_Layer: 0
   m_Name: Enemy3
   m_TagString: Enemy3
@@ -146,6 +147,18 @@ MonoBehaviour:
   _missilePrefab: {fileID: 4753592402817200777, guid: 24df2e478c74c1546aebd98fb94d451e,
     type: 3}
   _vie: 5
+--- !u!114 &-5444782584323633413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566134990611779171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cfd49f393018064396c3788051e691d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3996430190915423271
 GameObject:
   m_ObjectHideFlags: 0

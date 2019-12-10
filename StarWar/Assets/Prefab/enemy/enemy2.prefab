@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 261658337586504752}
   - component: {fileID: 9123309786327469163}
   - component: {fileID: 4759410252720292733}
+  - component: {fileID: 5031519294999914889}
   m_Layer: 0
-  m_Name: RoboBeepBoop
+  m_Name: enemy2
   m_TagString: Enemy2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,6 +167,18 @@ MonoBehaviour:
   _ELaserPrefab: {fileID: 2111499938023885386, guid: a5baeb4c4d097e440994583240e4faf0,
     type: 3}
   _vie: 1
+--- !u!114 &5031519294999914889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90041417306081721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cfd49f393018064396c3788051e691d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5501491228471568271
 GameObject:
   m_ObjectHideFlags: 0
