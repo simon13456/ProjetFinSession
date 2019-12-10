@@ -43,10 +43,7 @@ public class EnemyPath : MonoBehaviour
                 _indexPointRepere++;
             }
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        
 
         
     }

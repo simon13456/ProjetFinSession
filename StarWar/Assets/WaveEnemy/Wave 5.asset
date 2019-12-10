@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7958940be5d1c4f42b1e5e8bbaea9e5b, type: 3}
   m_Name: Wave 5
   m_EditorClassIdentifier: 
-  _prefabEnemy1: {fileID: 0}
-  Chemin1: {fileID: 0}
-  _tempsSpawn: 1
-  _nbrEnemy: 5
-  _vitesseDeplacement: 2
+  _prefabEnemy1: {fileID: 3566134990611779171, guid: ec6d72e17f79a034e86d31b227550bbf,
+    type: 3}
+  Chemin1: {fileID: 5502778144048347298, guid: 254fabf07ba22304d9fbe8bed2de2447, type: 3}
+  _tempsSpawn: 5
+  _nbrEnemy: 2
+  _vitesseDeplacement: 1

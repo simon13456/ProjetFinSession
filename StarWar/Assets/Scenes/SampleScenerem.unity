@@ -151,6 +151,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _configVague:
   - {fileID: 11400000, guid: f744812ae17ca32419f3dd597add6a94, type: 2}
+  - {fileID: 11400000, guid: 78e6db110b25e1248bd391a512aea73a, type: 2}
+  - {fileID: 11400000, guid: 929273f327a45114e8205d1ed11ccc17, type: 2}
+  - {fileID: 11400000, guid: 154428b911725cd44b124464f5649c3b, type: 2}
+  - {fileID: 11400000, guid: b3c9c8c2a78af044aa43c2b31f09b620, type: 2}
+  - {fileID: 11400000, guid: adbf66e9a3e4df0429c51b173e12395b, type: 2}
 --- !u!4 &367929844
 Transform:
   m_ObjectHideFlags: 0

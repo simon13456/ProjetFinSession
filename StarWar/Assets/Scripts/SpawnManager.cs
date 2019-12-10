@@ -14,8 +14,8 @@ public class SpawnManager : MonoBehaviour
         do
         {
             yield return StartCoroutine(SpawnWaves());
-            yield return new WaitForSeconds(3.5f);
-        } while (_stopSpawning);
+            yield return new WaitForSeconds(0.5f);
+        } while (!_stopSpawning);
     }
     
 
