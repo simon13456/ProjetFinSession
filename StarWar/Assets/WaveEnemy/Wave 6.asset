@@ -17,4 +17,4 @@ MonoBehaviour:
   Chemin1: {fileID: 1689839674496280296, guid: b0b4ad839de261a459eb85a3fe9d4c70, type: 3}
   _tempsSpawn: 5
   _nbrEnemy: 4
-  _vitesseDeplacement: 1
+  _vitesseDeplacement: 2

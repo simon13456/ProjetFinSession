@@ -15,6 +15,6 @@ MonoBehaviour:
   _prefabEnemy1: {fileID: 3374985895549044748, guid: 42541acbe9c166341b44509a1bf81506,
     type: 3}
   Chemin1: {fileID: 358098345847554325, guid: 0e8e6d25c573573459b9d12163181e6d, type: 3}
-  _tempsSpawn: 2
-  _nbrEnemy: 8
-  _vitesseDeplacement: 2
+  _tempsSpawn: 0.5
+  _nbrEnemy: 5
+  _vitesseDeplacement: 5
