@@ -57,6 +57,7 @@ public class LaserEnemy : MonoBehaviour
 
     }
 
+
     private float getAngle()
     {
         float vitX = GetComponent<Rigidbody2D>().velocity.x;

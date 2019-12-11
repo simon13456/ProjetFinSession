@@ -36,24 +36,55 @@ public class SpawnManager : MonoBehaviour
                 break;
             case 2:
                 waveEnemy.Clear();
-                ConfigWave vagueActuelle3 = _configVague[2];
-                ConfigWave vagueActuelle4 = _configVague[3];
+                
                 waveEnemy.Add(_configVague[2]);
                 waveEnemy.Add(_configVague[3]);
                 yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
                 break;
             case 3:
-
+                waveEnemy.Clear();
+                waveEnemy.Add(_configVague[1]);
+                waveEnemy.Add(_configVague[4]);
+                yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
                 break;
+
             case 4:
+                waveEnemy.Clear();
+                waveEnemy.Add(_configVague[0]);
+                waveEnemy.Add(_configVague[2]);
+                waveEnemy.Add(_configVague[1]);
+                waveEnemy.Add(_configVague[3]);
 
+                yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
                 break;
+
             case 5:
+                waveEnemy.Clear();
+                waveEnemy.Add(_configVague[0]);
+                waveEnemy.Add(_configVague[2]);
+                waveEnemy.Add(_configVague[4]);
+                waveEnemy.Add(_configVague[1]);
+                waveEnemy.Add(_configVague[3]);
+                waveEnemy.Add(_configVague[5]);
 
+                yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
                 break;
+
             case 6:
+                waveEnemy.Clear();
+                waveEnemy.Add(_configVague[0]);
+                waveEnemy.Add(_configVague[1]);
+                waveEnemy.Add(_configVague[0]);
+                waveEnemy.Add(_configVague[1]);
+                waveEnemy.Add(_configVague[2]);
+                waveEnemy.Add(_configVague[3]);
+                waveEnemy.Add(_configVague[2]);
+                waveEnemy.Add(_configVague[5]);
+                waveEnemy.Add(_configVague[4]);
 
+                yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
                 break;
+
 
 
 
@@ -78,6 +109,8 @@ public class SpawnManager : MonoBehaviour
                 yield return new WaitForSeconds(wave[j].GetTempsEntreSpawn());
 
             }
+            
+            
         }
 
     }
