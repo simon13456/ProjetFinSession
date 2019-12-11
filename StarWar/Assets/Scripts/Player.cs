@@ -17,9 +17,11 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject _eclair = default;
     [SerializeField] GameObject _force = default;
     [SerializeField] GameObject _epee = default;
+    [SerializeField] private bool infinivie;
     int layerMask = 10;
     bool coupEpee = false;
     int att = 0;
+    
 
     void Start()
     {
@@ -39,13 +41,6 @@ public class Player : MonoBehaviour
         }
 
         
-        /*if (Input.GetMouseButtonDown(0))
-        {
-            Fire();
-            SousMana(1);
-        }*/
-
-        //simon
         if (Input.GetKeyDown(KeyCode.Q))
         {
             att = 1;
@@ -112,6 +107,7 @@ public class Player : MonoBehaviour
             rot += 180;
         }
         StartCoroutine(fForce(rot));
+        SousMana(3);
     }
 
 
@@ -151,9 +147,9 @@ public class Player : MonoBehaviour
     {
         GameObject _Repee = Instantiate(_epee, transform.position, Quaternion.identity);
         _Repee.transform.Rotate(new Vector3(0f, 0f, rot));
-
         for (float i = 0f; i <= 360; i += 10f)
         {
+            _Repee.transform.position = transform.position;
             _Repee.transform.eulerAngles = new Vector3(0f, 0f, i + rot);
             yield return new WaitForSeconds(1 * (float)Math.Pow(10, -1000));
         }
@@ -166,7 +162,7 @@ public class Player : MonoBehaviour
     public void eclair()
     {
         Vector3 Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Collider[] ennemi = Physics.OverlapSphere(Position, 1, layerMask);
+        Collider[] ennemi = Physics.OverlapSphere(Position, 1);
         _eclair.gameObject.transform.GetChild(0).gameObject.transform.position = this.transform.position;
         if (false)
         {
@@ -193,11 +189,11 @@ public class Player : MonoBehaviour
     public void Damage()
     {
        _vie--;
-        if (_vie < 1)
+        if (_vie < 1&&!infinivie)
         {
             Destroy(this.gameObject); 
         }
-        else
+        else if (!infinivie)
         {
             GetComponentInChildren<HealthBar>().Damage();
         }
