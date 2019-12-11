@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Enemy2
   - Enemy3
+  - Missile
   layers:
   - Default
   - TransparentFX
