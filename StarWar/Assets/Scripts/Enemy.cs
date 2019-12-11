@@ -10,11 +10,12 @@ public class Enemy : MonoBehaviour
     private float vitesse = 3f;
     private bool colision = false;
     private bool canDash = true;
-    
+    private UIManager _UIManager=default;
     void Start()
     {
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
         _player = FindObjectOfType<Player>();
+        _UIManager = FindObjectOfType<UIManager>();
         StartCoroutine(Dash());
     }
 
@@ -76,6 +77,7 @@ public class Enemy : MonoBehaviour
                 _player.LifeSteal();
                 _player.AddMana();
             }
+            _UIManager.AddScore(50);
             Destroy(this.gameObject);
                        
 

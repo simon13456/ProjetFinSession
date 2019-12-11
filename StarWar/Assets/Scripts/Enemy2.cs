@@ -10,10 +10,11 @@ public class Enemy2 : MonoBehaviour
     bool allowShoot = false;
     Vector3 playerPos;
    [SerializeField] private int _vie = 1;
+    private UIManager _UIManager = default;
     void Start()
     {
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
-
+        _UIManager = FindObjectOfType<UIManager>();
         _player = FindObjectOfType<Player>();
         StartCoroutine(shootHer());
     }
@@ -66,6 +67,7 @@ public class Enemy2 : MonoBehaviour
         
         if (_vie < 1)
         {
+            _UIManager.AddScore(100);
             Destroy(this.gameObject);
             _player.LifeSteal();
             _player.AddMana();

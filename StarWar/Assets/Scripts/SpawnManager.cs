@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private List<ConfigWave> _configVague;
+    [SerializeField] private List<ConfigWave> _configVague =default;
     private int _vagueDepart = 1;
     private bool _stopSpawning = false;
 
