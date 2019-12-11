@@ -32,7 +32,7 @@ public class Epee : MonoBehaviour
             
             other.GetComponent<Enemy>().Damage();
         }
-        if (other.tag == "EnemyLaser")
+        if (other.tag == "EnemyLaser" || other.tag == "Missile")
         {
             
             Destroy(other.gameObject);
