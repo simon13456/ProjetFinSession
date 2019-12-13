@@ -5,115 +5,79 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private List<ConfigWave> _configVague =default;
-    private int _vagueDepart = 1;
+    private int _vagueDepart = 0;
     private bool _stopSpawning = false;
+    private UIManager _UIManager = default;
+
 
     IEnumerator Start()
     {
-
+        _UIManager = FindObjectOfType<UIManager>();
         do
         {
-            yield return StartCoroutine(SpawnWaves());
+            
+            yield return StartCoroutine(SpawnWaves(_vagueDepart));
             _vagueDepart++;
+            
             yield return new WaitForSeconds(5f);
         } while (!_stopSpawning);
     }
     
 
-    IEnumerator SpawnWaves()
+    IEnumerator SpawnWaves(int waveCompteur)
     {
         List<ConfigWave> waveEnemy= new List<ConfigWave>();
-        switch (_vagueDepart) 
-        
-        {
-            case 1:
+
+        waveEnemy.Clear();
+        waveEnemy.Add(_configVague[0]);
+        waveEnemy.Add(_configVague[1]);
+        waveEnemy.Add(_configVague[2]);
+        waveEnemy.Add(_configVague[3]);
+        waveEnemy.Add(_configVague[4]);
+        waveEnemy.Add(_configVague[5]);
+        _UIManager.AddWave();
+        yield return StartCoroutine(SpawnVagueEnemy(waveEnemy, waveCompteur));
                 
-                ConfigWave vagueActuelle = _configVague[0];
-                ConfigWave vagueActuelle2 = _configVague[1];
-                waveEnemy.Add(_configVague[0]);
-                waveEnemy.Add(_configVague[1]);
-                yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
-                break;
-            case 2:
-                waveEnemy.Clear();
-                
-                waveEnemy.Add(_configVague[2]);
-                waveEnemy.Add(_configVague[3]);
-                yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
-                break;
-            case 3:
-                waveEnemy.Clear();
-                waveEnemy.Add(_configVague[1]);
-                waveEnemy.Add(_configVague[4]);
-                yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
-                break;
-
-            case 4:
-                waveEnemy.Clear();
-                waveEnemy.Add(_configVague[0]);
-                waveEnemy.Add(_configVague[2]);
-                waveEnemy.Add(_configVague[1]);
-                waveEnemy.Add(_configVague[3]);
-
-                yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
-                break;
-
-            case 5:
-                waveEnemy.Clear();
-                waveEnemy.Add(_configVague[0]);
-                waveEnemy.Add(_configVague[2]);
-                waveEnemy.Add(_configVague[4]);
-                waveEnemy.Add(_configVague[1]);
-                waveEnemy.Add(_configVague[3]);
-                waveEnemy.Add(_configVague[5]);
-
-                yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
-                break;
-
-            case 6:
-                waveEnemy.Clear();
-                waveEnemy.Add(_configVague[0]);
-                waveEnemy.Add(_configVague[1]);
-                waveEnemy.Add(_configVague[0]);
-                waveEnemy.Add(_configVague[1]);
-                waveEnemy.Add(_configVague[2]);
-                waveEnemy.Add(_configVague[3]);
-                waveEnemy.Add(_configVague[2]);
-                waveEnemy.Add(_configVague[5]);
-                waveEnemy.Add(_configVague[4]);
-
-                yield return StartCoroutine(SpawnVagueEnemy(waveEnemy));
-                break;
-
-
-
-
-
-
-        }
-
     }
 
 
 
-    IEnumerator SpawnVagueEnemy(List<ConfigWave> wave)
+    IEnumerator SpawnVagueEnemy(List<ConfigWave> wave, int waveCompteur)
     {
-        for (int j = 0; j < wave.Count; j++)
+        bool spawn= true;
+        int compteur = 0;
+
+        while (spawn)
         {
-
-
-            for (int i = 0; i < wave[j].GetNbrEnemy(); i++)
+            if (compteur < wave.Count)
             {
-                GameObject newEnemy = Instantiate(wave[j].GetPrefabEnemy(), wave[j].GetWayPoints()[0].transform.position, Quaternion.identity);
-                newEnemy.GetComponent<EnemyPath>().SetConfigVague(wave[j]);
-                yield return new WaitForSeconds(wave[j].GetTempsEntreSpawn());
 
+                for (int i = 0; i < wave[compteur].GetNbrEnemy(); i++)
+                {
+                    GameObject newEnemy = Instantiate(wave[compteur].GetPrefabEnemy(), wave[compteur].GetWayPoints()[0].transform.position, Quaternion.identity);
+                    newEnemy.GetComponent<EnemyPath>().SetConfigVague(wave[compteur]);
+                    yield return new WaitForSeconds(wave[compteur].GetTempsEntreSpawn());
+                }
+            
+        
             }
-            
-            
-        }
+            compteur++;
+            if (waveCompteur > 5 && compteur>5)
+            {
+                compteur = 0;
+                waveCompteur -= 5;
+            }
+
+            if (compteur >waveCompteur )
+            {
+                spawn = false;
+            }
+        }  
 
     }
+
+
+ 
 
 
     public void stopSpawning()

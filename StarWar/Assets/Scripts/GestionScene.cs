@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIMenu : MonoBehaviour
+public class GestionScene : MonoBehaviour
 {
-
     [SerializeField] GameObject instructions = default;
     public void Instruction()
     {
@@ -36,5 +35,4 @@ public class UIMenu : MonoBehaviour
         int indexSceneCourante = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(0);
     }
-    
 }
