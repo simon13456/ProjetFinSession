@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
     private bool colision = false;
     private bool canDash = true;
     private UIManager _UIManager=default;
+    
+    
     void Start()
     {
         GetComponentInChildren<HealthBar>().NbrVie(_vie);

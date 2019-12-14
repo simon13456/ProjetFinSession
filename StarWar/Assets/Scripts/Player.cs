@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private int _mana = 12;
     private int compteur = 0;
     [SerializeField] private GestionScene gestionScene = default;
+    
 
     private bool machineGun = false;
     int cMachine = 1;
@@ -131,8 +132,11 @@ public class Player : MonoBehaviour
     }
     private void mort()
     {
-        gestionScene.ChangerScene();
+        
         FindObjectOfType<SpawnManager>().stopSpawning();
+        
+        //gestionScene.ChangerScene();
+        
 
     }
 
