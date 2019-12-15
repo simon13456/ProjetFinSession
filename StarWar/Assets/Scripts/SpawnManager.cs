@@ -4,58 +4,91 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemyPrefab = default;
-    [SerializeField] private GameObject _enemyPrefab2 = default;
-    [SerializeField] private GameObject _enemyPrefab3 = default;
-    Vector3 playerPos;
+    [SerializeField] private List<ConfigWave> _configVague =default;
+    private int _vagueDepart = 0;
     private bool _stopSpawning = false;
-    private int compteur = 0;
-    private float spawnY = 0;
-    private float spawnX = 0f;
-   
-    void Start()
-    {
-        StartSpawning();
-    }
-    public void StartSpawning()
-    {
-        StartCoroutine(SpawnEnemy());
+    private UIManager _UIManager = default;
 
-    }
 
-    IEnumerator SpawnEnemy()
+    IEnumerator Start()
     {
-        yield return new WaitForSeconds(5.0f);
-        while (!_stopSpawning)
+        _UIManager = FindObjectOfType<UIManager>();
+        do
         {
-            compteur++;
-            if (compteur % 2 == 0)
-            {
-                spawnY = -9f;
-                spawnX = -15f;
-            }
-            else
-            {
-                spawnY = 9f;
-                spawnX = 15f;
-            }
-            if (compteur % 3 == 0)
-            {
-                Vector3 spawnPosition3 = new Vector3(spawnX, Random.Range(-8.5f, 8.5f), 0f);
-                GameObject newEnemy3 = Instantiate(_enemyPrefab3, spawnPosition3, Quaternion.identity);
-            }
-           
-            Vector3 spawnPosition = new Vector3(Random.Range(-16f, 16f), spawnY, 0f);
-            GameObject newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
-           
-            Vector3 spawnPositiond = new Vector3(Random.Range(-16f, 16f), -spawnY, 0f);
-            GameObject newEnemyd = Instantiate(_enemyPrefab, spawnPositiond, Quaternion.identity);
-           
-            Vector3 spawnPosition2 = new Vector3(Random.Range(-15f, 15f), Random.Range(-8.5f,8.5f), 0f);
-           GameObject newEnemy2 = Instantiate(_enemyPrefab2, spawnPosition2, Quaternion.identity);
-            yield return new WaitForSeconds(3f);
-        }
+            
+            yield return StartCoroutine(SpawnWaves(_vagueDepart));
+            _vagueDepart++;
+            
+            yield return new WaitForSeconds(5f);
+        } while (!_stopSpawning);
+    }
+    
 
+    IEnumerator SpawnWaves(int waveCompteur)
+    {
+        List<ConfigWave> waveEnemy= new List<ConfigWave>();
+
+        waveEnemy.Clear();
+        waveEnemy.Add(_configVague[0]);
+        waveEnemy.Add(_configVague[1]);
+        waveEnemy.Add(_configVague[2]);
+        waveEnemy.Add(_configVague[3]);
+        waveEnemy.Add(_configVague[4]);
+        waveEnemy.Add(_configVague[5]);
+        _UIManager.AddWave();
+        yield return StartCoroutine(SpawnVagueEnemy(waveEnemy, waveCompteur));
+                
+    }
+
+
+
+    IEnumerator SpawnVagueEnemy(List<ConfigWave> wave, int waveCompteur)
+    {
+        bool spawn= true;
+        int compteur = 0;
+
+        while (spawn)
+        {
+            if (compteur < wave.Count)
+            {
+
+                for (int i = 0; i < wave[compteur].GetNbrEnemy(); i++)
+                {
+                    GameObject newEnemy = Instantiate(wave[compteur].GetPrefabEnemy(), wave[compteur].GetWayPoints()[0].transform.position, Quaternion.identity);
+                    newEnemy.GetComponent<EnemyPath>().SetConfigVague(wave[compteur]);
+                    yield return new WaitForSeconds(wave[compteur].GetTempsEntreSpawn());
+                }
+            
+        
+            }
+            compteur++;
+            if (waveCompteur > 5 && compteur>5)
+            {
+                compteur = 0;
+                waveCompteur -= 5;
+            }
+
+            if (compteur >waveCompteur )
+            {
+                spawn = false;
+            }
+        }  
+
+    }
+
+
+ 
+
+
+    public void stopSpawning()
+    {
+        _stopSpawning = true;
+    }
+
+    public bool ArretJeu()
+    {
+
+        return _stopSpawning;
     }
     // Update is called once per frame
     void Update()
@@ -63,3 +96,4 @@ public class SpawnManager : MonoBehaviour
         
     }
 }
+

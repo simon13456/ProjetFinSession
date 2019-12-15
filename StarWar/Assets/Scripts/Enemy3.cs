@@ -9,10 +9,11 @@ public class Enemy3 : MonoBehaviour
     bool allowShoot = false;
     Vector3 playerPos;
     [SerializeField] private int _vie = 5;
+    private UIManager _UIManager = default;
     void Start()
     {
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
-
+        _UIManager = FindObjectOfType<UIManager>();
         _player = FindObjectOfType<Player>();
         StartCoroutine(shootHer());
     }
@@ -29,8 +30,16 @@ public class Enemy3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
-        Orientation();
+        if (!FindObjectOfType<SpawnManager>().ArretJeu())
+        {
+            Move();
+            Orientation();
+        }
+        else
+        {
+            allowShoot = true;
+        }
+        
 
     }
 
@@ -55,6 +64,7 @@ public class Enemy3 : MonoBehaviour
 
         if (_vie < 1)
         {
+            _UIManager.AddScore(100);
             Destroy(this.gameObject);
             _player.LifeSteal();
             _player.AddMana();

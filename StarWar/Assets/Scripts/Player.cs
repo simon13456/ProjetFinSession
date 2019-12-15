@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
     private int _vie = 10;
     private int _mana = 12;
     private int compteur = 0;
-
     //simon
     [SerializeField] GameObject _eclair = default;
     [SerializeField] GameObject _force = default;
@@ -21,7 +20,9 @@ public class Player : MonoBehaviour
     int layerMask = 10;
     bool coupEpee = false;
     int att = 0;
-    
+    [SerializeField] private GestionScene gestionScene = default;
+    private bool machineGun = false;
+    int cMachine = 1;
 
     void Start()
     {
@@ -174,6 +175,43 @@ public class Player : MonoBehaviour
             _eclair.gameObject.transform.GetChild(1).gameObject.transform.position = ennemi[0].transform.position;
             Instantiate(_eclair, default, Quaternion.identity);
         }
+        //CodeTroll
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            cMachine++;
+            if (cMachine % 2 == 0)
+            {
+                machineGun = true;
+            }
+            else
+            {
+                machineGun = false;
+            }
+        }
+        if (machineGun)
+        {
+            Fire();
+        }
+    //arrete ici
+
+
+        if (Input.GetKeyDown(KeyCode.Mouse1)||isMoving)
+        { 
+            Move();
+            isMoving = true;
+        }
+        //Input.GetKeyDown(KeyCode.Space)
+        if (Input.GetMouseButtonDown(0))
+        {
+            Fire();
+            SousMana(1);
+        }
+    }
+
+    private void Fire()
+    {
+        Instantiate(_LaserPrefab, transform.position, Quaternion.identity);
+
     }
 
     private void Move()
@@ -236,6 +274,16 @@ public class Player : MonoBehaviour
             _mana++;
             GetComponentInChildren<ManaBar>().ajoutMana();
         }
+    }
+
+    private void mort()
+    {
+        
+        FindObjectOfType<SpawnManager>().stopSpawning();
+        
+        //gestionScene.ChangerScene();
+        
+
     }
 
 

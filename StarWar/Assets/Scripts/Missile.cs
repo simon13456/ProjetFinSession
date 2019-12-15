@@ -17,7 +17,15 @@ public class Missile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SeekAndDestroy();
+        if (!FindObjectOfType<SpawnManager>().ArretJeu())
+        {
+            SeekAndDestroy();
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+            
     }
 
     private void SeekAndDestroy()
