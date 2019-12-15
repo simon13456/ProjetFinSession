@@ -208,11 +208,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Fire()
-    {
-        Instantiate(_LaserPrefab, transform.position, Quaternion.identity);
-
-    }
 
     private void Move()
     {
@@ -229,6 +224,7 @@ public class Player : MonoBehaviour
        _vie--;
         if (_vie < 1&&!infinivie)
         {
+            mort();
             Destroy(this.gameObject); 
         }
         else if (!infinivie)
