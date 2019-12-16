@@ -24,6 +24,10 @@ public class Player : MonoBehaviour
     private bool machineGun = false;
     int cMachine = 1;
 
+    [SerializeField] AudioClip hurt = default;
+    [SerializeField] AudioClip epee = default;
+    [SerializeField] AudioClip bow = default;
+    [SerializeField] AudioClip wind = default;
     void Start()
     {
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
@@ -68,7 +72,7 @@ public class Player : MonoBehaviour
     {
         if (att == 1)
         {
-            eclair();
+            
         }
         else if (att == 2)
         {
@@ -77,7 +81,14 @@ public class Player : MonoBehaviour
         }
         else if (att == 3)
         {
-            Force();
+            if (EnoughMana(3))
+            {
+               Force();
+            }
+            else
+            {
+                //pas Assez de mana
+            }
         }
         else if (att == 4)
         {
@@ -87,27 +98,23 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
+        AudioSource.PlayClipAtPoint(bow, Camera.main.transform.position);
         Instantiate(_LaserPrefab, transform.position, Quaternion.identity);    
     }
 
     private void Force()
     {
+        AudioSource.PlayClipAtPoint(wind, Camera.main.transform.position);
         Vector3 Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);  
         Vector3 vec = Position - transform.position;           
-        float rot = (float)(Mathf.Rad2Deg * (Math.Atan(vec.x / vec.y)));
-        if (vec.x < 0 & vec.y >= 0)
+        float rot = (Mathf.Atan(vec.y / vec.x));
+        float anglesupp = 0;
+        if (vec.x < 0)
         {
-            rot += 90;
+            anglesupp = Mathf.Deg2Rad * 180;
         }
-        else if (vec.x >= 0 && vec.y < 0)
-        {
-            rot += 270;
-        }
-        else if (vec.x < 0 && vec.y < 0)
-        {
-            rot += 180;
-        }
-        
+
+        rot = Mathf.Rad2Deg*(rot+anglesupp);
         StartCoroutine(fForce(rot));
         SousMana(3);
         Debug.Log(rot);
@@ -118,6 +125,7 @@ public class Player : MonoBehaviour
 
     IEnumerator fForce(float rot)
     {
+        
         GameObject _Rforce = Instantiate(_force, transform.position, Quaternion.identity);
         _Rforce.transform.eulerAngles = new Vector3(0, 0, rot-90); ;
         for (float i = 0f; i <= 0.3; i += 0.01f)
@@ -150,6 +158,7 @@ public class Player : MonoBehaviour
 
     IEnumerator Spin(float rot)
     {
+        AudioSource.PlayClipAtPoint(epee, Camera.main.transform.position);
         GameObject _Repee = Instantiate(_epee, transform.position, Quaternion.identity);
         _Repee.transform.Rotate(new Vector3(0f, 0f, rot));
         for (float i = 0f; i <= 360; i += 10f)
@@ -164,23 +173,7 @@ public class Player : MonoBehaviour
         yield return 0;
 
     }
-    public void eclair()
-    {
-        Vector3 Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Collider[] ennemi = Physics.OverlapSphere(Position, 5);
-        _eclair.gameObject.transform.GetChild(0).gameObject.transform.position = this.transform.position;
-        if (false)
-        {
-            _eclair.gameObject.transform.GetChild(1).gameObject.transform.position = Position;
-            Instantiate(_eclair, transform.position, Quaternion.identity);
-        }
-        else
-        {
-            _eclair.gameObject.transform.GetChild(1).gameObject.transform.position = ennemi[0].transform.position;
-            Instantiate(_eclair, default, Quaternion.identity);
-        }
-    
-    }
+
 
 
     private void Move()
@@ -195,7 +188,8 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-       _vie--;
+        AudioSource.PlayClipAtPoint(hurt, Camera.main.transform.position);
+        _vie--;
         if (_vie < 1&&!infinivie)
         {
             mort();
@@ -237,6 +231,20 @@ public class Player : MonoBehaviour
         }
 
     }
+    private bool EnoughMana(int cout)
+    {
+        if (_mana >= cout)
+        {
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
     public void AddMana()
     {
         if (_mana < 12)

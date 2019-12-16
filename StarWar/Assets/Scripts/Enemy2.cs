@@ -11,6 +11,9 @@ public class Enemy2 : MonoBehaviour
     Vector3 playerPos;
    [SerializeField] private int _vie = 1;
     private UIManager _UIManager = default;
+    [SerializeField] AudioClip hurt = default;
+    [SerializeField] AudioClip bow = default;
+
     void Start()
     {
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
@@ -46,6 +49,7 @@ public class Enemy2 : MonoBehaviour
 
     private void Fire()
     {
+        AudioSource.PlayClipAtPoint(bow, Camera.main.transform.position);
         Instantiate(_ELaserPrefab, transform.position, Quaternion.identity);
     }
 
@@ -64,7 +68,7 @@ public class Enemy2 : MonoBehaviour
     public void Damage()
     {
         _vie--;
-        
+        AudioSource.PlayClipAtPoint(hurt, Camera.main.transform.position);
         if (_vie < 1)
         {
             _UIManager.AddScore(100);
