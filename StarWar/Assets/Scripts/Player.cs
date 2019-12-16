@@ -92,9 +92,9 @@ public class Player : MonoBehaviour
 
     private void Force()
     {
-        Vector3 Position = new Vector3(Input.mousePosition.x / Screen.width * 32, Input.mousePosition.y / Screen.height * 18);
-        Vector3 vec = Position - transform.position;
-        float rot = (float)(Mathf.Rad2Deg * (Math.Tan(vec.x / vec.y)));
+        Vector3 Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);  
+        Vector3 vec = Position - transform.position;           
+        float rot = (float)(Mathf.Rad2Deg * (Math.Atan(vec.x / vec.y)));
         if (vec.x < 0 & vec.y >= 0)
         {
             rot += 90;
@@ -107,15 +107,19 @@ public class Player : MonoBehaviour
         {
             rot += 180;
         }
+        
         StartCoroutine(fForce(rot));
         SousMana(3);
+        Debug.Log(rot);
+        Debug.Log(vec.y);
+        Debug.Log(vec.x);
     }
 
 
     IEnumerator fForce(float rot)
     {
         GameObject _Rforce = Instantiate(_force, transform.position, Quaternion.identity);
-        _Rforce.transform.Rotate(new Vector3(0f, 0f, rot));
+        _Rforce.transform.eulerAngles = new Vector3(0, 0, rot-90); ;
         for (float i = 0f; i <= 0.3; i += 0.01f)
         {
             _Rforce.transform.localScale += new Vector3(i / 2, i, 0f);
@@ -163,7 +167,7 @@ public class Player : MonoBehaviour
     public void eclair()
     {
         Vector3 Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Collider[] ennemi = Physics.OverlapSphere(Position, 1);
+        Collider[] ennemi = Physics.OverlapSphere(Position, 5);
         _eclair.gameObject.transform.GetChild(0).gameObject.transform.position = this.transform.position;
         if (false)
         {
@@ -175,37 +179,7 @@ public class Player : MonoBehaviour
             _eclair.gameObject.transform.GetChild(1).gameObject.transform.position = ennemi[0].transform.position;
             Instantiate(_eclair, default, Quaternion.identity);
         }
-        //CodeTroll
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            cMachine++;
-            if (cMachine % 2 == 0)
-            {
-                machineGun = true;
-            }
-            else
-            {
-                machineGun = false;
-            }
-        }
-        if (machineGun)
-        {
-            Fire();
-        }
-    //arrete ici
-
-
-        if (Input.GetKeyDown(KeyCode.Mouse1)||isMoving)
-        { 
-            Move();
-            isMoving = true;
-        }
-        //Input.GetKeyDown(KeyCode.Space)
-        if (Input.GetMouseButtonDown(0))
-        {
-            Fire();
-            SousMana(1);
-        }
+    
     }
 
 

@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour
             
             _player.Damage();
             colision = true;
-            this.Damage();
+          
             
         }
         
@@ -86,7 +86,9 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            this.Damage();
             GetComponentInChildren<HealthBar>().Damage();
+            
         }
 
     }

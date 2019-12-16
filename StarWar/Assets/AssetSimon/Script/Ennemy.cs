@@ -19,7 +19,7 @@ public class Ennemy : MonoBehaviour
 
     void Update()
     {
-        Move();
+       //Move();
     }
 
     private void Move()
