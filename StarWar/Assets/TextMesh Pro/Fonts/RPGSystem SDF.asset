@@ -821,7 +821,7 @@ MonoBehaviour:
       m_HorizontalBearingY: 50.625
       m_HorizontalAdvance: 39.375
     m_GlyphRect:
-      m_X: 752
+      m_X: 355
       m_Y: 10
       m_Width: 34
       m_Height: 51

@@ -23,9 +23,14 @@ public class Player : MonoBehaviour
     [SerializeField] private GestionScene gestionScene = default;
     private bool machineGun = false;
     int cMachine = 1;
-
+    int compteurEpee = 0;
+   
+   /* [SerializeField] AudioSource epee = default;
+    [SerializeField] AudioSource bow = default;
+    [SerializeField] AudioSource wind = default;*/
     void Start()
     {
+        
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
         GetComponentInChildren<ManaBar>().NbrMana(_mana);
     }
@@ -42,42 +47,47 @@ public class Player : MonoBehaviour
         }
 
         
-        if (Input.GetKeyDown(KeyCode.Q))
+        
+       if (Input.GetKeyDown(KeyCode.W) && coupEpee == false)
         {
-            att = 1;
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            att = 2;
+            
+            attaque(2);
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            att = 3;
+            
+            attaque(3);
         }
-        else if (Input.GetKeyDown(KeyCode.R))
+        
+        if (Input.GetMouseButtonDown(0) )
         {
-            att = 4;
-        }
-        if (Input.GetMouseButtonDown(0) && coupEpee == false)
-        {
-            attaque(att);
+            attaque(4);
         }
     }
 
     private void attaque(int att)
     {
-        if (att == 1)
+        
+        if (att == 2)
         {
-            eclair();
-        }
-        else if (att == 2)
-        {
+            compteurEpee++;
             youSpinMeRightRound();
-            coupEpee = true;
+            if (compteurEpee % 2 == 0)
+            {
+                coupEpee = true;
+            }
+            
         }
         else if (att == 3)
         {
-            Force();
+            if (EnoughMana(3))
+            {
+               Force();
+            }
+            else
+            {
+                //pas Assez de mana
+            }
         }
         else if (att == 4)
         {
@@ -87,37 +97,32 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
+        
         Instantiate(_LaserPrefab, transform.position, Quaternion.identity);    
     }
 
     private void Force()
     {
+        
         Vector3 Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);  
         Vector3 vec = Position - transform.position;           
-        float rot = (float)(Mathf.Rad2Deg * (Math.Atan(vec.x / vec.y)));
-        if (vec.x < 0 & vec.y >= 0)
+        float rot = (Mathf.Atan(vec.y / vec.x));
+        float anglesupp = 0;
+        if (vec.x < 0)
         {
-            rot += 90;
+            anglesupp = Mathf.Deg2Rad * 180;
         }
-        else if (vec.x >= 0 && vec.y < 0)
-        {
-            rot += 270;
-        }
-        else if (vec.x < 0 && vec.y < 0)
-        {
-            rot += 180;
-        }
-        
+
+        rot = Mathf.Rad2Deg*(rot+anglesupp);
         StartCoroutine(fForce(rot));
         SousMana(3);
-        Debug.Log(rot);
-        Debug.Log(vec.y);
-        Debug.Log(vec.x);
+        
     }
 
 
     IEnumerator fForce(float rot)
     {
+        
         GameObject _Rforce = Instantiate(_force, transform.position, Quaternion.identity);
         _Rforce.transform.eulerAngles = new Vector3(0, 0, rot-90); ;
         for (float i = 0f; i <= 0.3; i += 0.01f)
@@ -150,13 +155,14 @@ public class Player : MonoBehaviour
 
     IEnumerator Spin(float rot)
     {
+        
         GameObject _Repee = Instantiate(_epee, transform.position, Quaternion.identity);
         _Repee.transform.Rotate(new Vector3(0f, 0f, rot));
-        for (float i = 0f; i <= 360; i += 10f)
+        for (float i = 0f; i <= 360; i += 15f)
         {
             _Repee.transform.position = transform.position;
             _Repee.transform.eulerAngles = new Vector3(0f, 0f, i + rot);
-            yield return new WaitForSeconds(1 * (float)Math.Pow(10, -1000));
+            yield return new WaitForSeconds(1 * (float)Math.Pow(10, -10000000000000));
         }
 
         Destroy(_Repee);
@@ -164,23 +170,7 @@ public class Player : MonoBehaviour
         yield return 0;
 
     }
-    public void eclair()
-    {
-        Vector3 Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Collider[] ennemi = Physics.OverlapSphere(Position, 5);
-        _eclair.gameObject.transform.GetChild(0).gameObject.transform.position = this.transform.position;
-        if (false)
-        {
-            _eclair.gameObject.transform.GetChild(1).gameObject.transform.position = Position;
-            Instantiate(_eclair, transform.position, Quaternion.identity);
-        }
-        else
-        {
-            _eclair.gameObject.transform.GetChild(1).gameObject.transform.position = ennemi[0].transform.position;
-            Instantiate(_eclair, default, Quaternion.identity);
-        }
-    
-    }
+
 
 
     private void Move()
@@ -188,14 +178,18 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetPosition.z = 0;           
+            targetPosition.z = 0;
+            targetPosition.x = Mathf.Clamp(targetPosition.x, -16f, 16f);
+            targetPosition.y = Mathf.Clamp(targetPosition.y, -9f, 9f);
         }
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * _vitesse);
+        
     }
 
     public void Damage()
     {
-       _vie--;
+        GetComponent<AudioSource>().Play();
+        _vie--;
         if (_vie < 1&&!infinivie)
         {
             mort();
@@ -237,6 +231,20 @@ public class Player : MonoBehaviour
         }
 
     }
+    private bool EnoughMana(int cout)
+    {
+        if (_mana >= cout)
+        {
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
     public void AddMana()
     {
         if (_mana < 12)

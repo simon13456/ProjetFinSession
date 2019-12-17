@@ -7,7 +7,7 @@ public class Epee : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GetComponent<AudioSource>().Play();
     }
 
     // Update is called once per frame
@@ -35,6 +35,11 @@ public class Epee : MonoBehaviour
         if (other.tag == "EnemyLaser" || other.tag == "Missile")
         {
             
+            Destroy(other.gameObject);
+        }
+        if (other.tag == "Missile")
+        {
+
             Destroy(other.gameObject);
         }
     }
