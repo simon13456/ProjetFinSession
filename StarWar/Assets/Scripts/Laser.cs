@@ -13,7 +13,7 @@ public class Laser : MonoBehaviour
     void Start()
     {
 
-
+        GetComponent<AudioSource>().Play();
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         target = position - transform.position;
         GetComponent<Rigidbody2D>().velocity = target * Time.deltaTime * 150f;

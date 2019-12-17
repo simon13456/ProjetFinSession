@@ -24,7 +24,7 @@ public class ManaBar : MonoBehaviour
     }
     public void GerardLaflaque()
     {
-        Debug.Log(manaCompteur);
+
         _mana[manaCompteur].SetActive(false);
 
         manaCompteur--;

@@ -23,13 +23,14 @@ public class Player : MonoBehaviour
     [SerializeField] private GestionScene gestionScene = default;
     private bool machineGun = false;
     int cMachine = 1;
-
-    [SerializeField] AudioClip hurt = default;
-    [SerializeField] AudioClip epee = default;
-    [SerializeField] AudioClip bow = default;
-    [SerializeField] AudioClip wind = default;
+    int compteurEpee = 0;
+   
+   /* [SerializeField] AudioSource epee = default;
+    [SerializeField] AudioSource bow = default;
+    [SerializeField] AudioSource wind = default;*/
     void Start()
     {
+        
         GetComponentInChildren<HealthBar>().NbrVie(_vie);
         GetComponentInChildren<ManaBar>().NbrMana(_mana);
     }
@@ -46,38 +47,36 @@ public class Player : MonoBehaviour
         }
 
         
-        if (Input.GetKeyDown(KeyCode.Q))
+        
+       if (Input.GetKeyDown(KeyCode.W) && coupEpee == false)
         {
-            att = 1;
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            att = 2;
+            
+            attaque(2);
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            att = 3;
+            
+            attaque(3);
         }
-        else if (Input.GetKeyDown(KeyCode.R))
+        
+        if (Input.GetMouseButtonDown(0) )
         {
-            att = 4;
-        }
-        if (Input.GetMouseButtonDown(0) && coupEpee == false)
-        {
-            attaque(att);
+            attaque(4);
         }
     }
 
     private void attaque(int att)
     {
-        if (att == 1)
+        
+        if (att == 2)
         {
-            
-        }
-        else if (att == 2)
-        {
+            compteurEpee++;
             youSpinMeRightRound();
-            coupEpee = true;
+            if (compteurEpee % 2 == 0)
+            {
+                coupEpee = true;
+            }
+            
         }
         else if (att == 3)
         {
@@ -98,13 +97,13 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
-        AudioSource.PlayClipAtPoint(bow, Camera.main.transform.position);
+        
         Instantiate(_LaserPrefab, transform.position, Quaternion.identity);    
     }
 
     private void Force()
     {
-        AudioSource.PlayClipAtPoint(wind, Camera.main.transform.position);
+        
         Vector3 Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);  
         Vector3 vec = Position - transform.position;           
         float rot = (Mathf.Atan(vec.y / vec.x));
@@ -117,9 +116,7 @@ public class Player : MonoBehaviour
         rot = Mathf.Rad2Deg*(rot+anglesupp);
         StartCoroutine(fForce(rot));
         SousMana(3);
-        Debug.Log(rot);
-        Debug.Log(vec.y);
-        Debug.Log(vec.x);
+        
     }
 
 
@@ -158,14 +155,14 @@ public class Player : MonoBehaviour
 
     IEnumerator Spin(float rot)
     {
-        AudioSource.PlayClipAtPoint(epee, Camera.main.transform.position);
+        
         GameObject _Repee = Instantiate(_epee, transform.position, Quaternion.identity);
         _Repee.transform.Rotate(new Vector3(0f, 0f, rot));
-        for (float i = 0f; i <= 360; i += 10f)
+        for (float i = 0f; i <= 360; i += 15f)
         {
             _Repee.transform.position = transform.position;
             _Repee.transform.eulerAngles = new Vector3(0f, 0f, i + rot);
-            yield return new WaitForSeconds(1 * (float)Math.Pow(10, -1000));
+            yield return new WaitForSeconds(1 * (float)Math.Pow(10, -10000000000000));
         }
 
         Destroy(_Repee);
@@ -181,14 +178,17 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetPosition.z = 0;           
+            targetPosition.z = 0;
+            targetPosition.x = Mathf.Clamp(targetPosition.x, -16f, 16f);
+            targetPosition.y = Mathf.Clamp(targetPosition.y, -9f, 9f);
         }
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * _vitesse);
+        
     }
 
     public void Damage()
     {
-        AudioSource.PlayClipAtPoint(hurt, Camera.main.transform.position);
+        GetComponent<AudioSource>().Play();
         _vie--;
         if (_vie < 1&&!infinivie)
         {

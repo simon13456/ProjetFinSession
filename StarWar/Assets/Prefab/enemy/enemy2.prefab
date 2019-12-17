@@ -124,8 +124,7 @@ MonoBehaviour:
   _ELaserPrefab: {fileID: 2111499938023885386, guid: a5baeb4c4d097e440994583240e4faf0,
     type: 3}
   _vie: 1
-  hurt: {fileID: 8300000, guid: c2423d408fb9f5f42a26de0b57634e7c, type: 3}
-  bow: {fileID: 8300000, guid: 8d3d3912264143f4cbcc27a152572642, type: 3}
+  hurt: {fileID: 8300000, guid: aabb884acf42cae4fac4d7bd6b2032db, type: 3}
 --- !u!114 &5031519294999914889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +271,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8d3d3912264143f4cbcc27a152572642, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.525
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -9,11 +9,15 @@ public class LaserEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _player = FindObjectOfType<Player>();
-        Vector3 target = _player.transform.position - transform.position;
-        GetComponent<Rigidbody2D>().velocity = target * Time.deltaTime * 20f;
-        transform.eulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * getAngle() - 90);
-        StartCoroutine(seekAndDestroy());
+        if (!FindObjectOfType<SpawnManager>().ArretJeu())
+        {
+            GetComponent<AudioSource>().Play();
+            _player = FindObjectOfType<Player>();
+            Vector3 target = _player.transform.position - transform.position;
+            GetComponent<Rigidbody2D>().velocity = target * Time.deltaTime * 20f;
+            transform.eulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * getAngle() - 90);
+            StartCoroutine(seekAndDestroy());
+        }
     }
 
     IEnumerator seekAndDestroy()
@@ -25,7 +29,15 @@ public class LaserEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AdjustVelo();
+        if (!FindObjectOfType<SpawnManager>().ArretJeu())
+        {
+           AdjustVelo();
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+        
     }
     private void OnTriggerEnter2D(Collider2D other)
     {

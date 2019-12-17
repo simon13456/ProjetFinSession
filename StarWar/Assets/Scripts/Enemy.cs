@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     private bool colision = false;
     private bool canDash = true;
     private UIManager _UIManager=default;
+
     [SerializeField] AudioClip hurt = default;
 
     void Start()
@@ -71,7 +72,7 @@ public class Enemy : MonoBehaviour
     public void Damage()
     {
         _vie--;
-        
+        AudioSource.PlayClipAtPoint(hurt, Camera.main.transform.position);
         if (_vie < 1)
         {
             if (!colision)
@@ -79,7 +80,7 @@ public class Enemy : MonoBehaviour
                 _player.LifeSteal();
                 _player.AddMana();
             }
-            AudioSource.PlayClipAtPoint(hurt, Camera.main.transform.position);
+            
             _UIManager.AddScore(50);
             Destroy(this.gameObject);
                        
@@ -89,7 +90,7 @@ public class Enemy : MonoBehaviour
         {
             
             GetComponentInChildren<HealthBar>().Damage();
-            Debug.Log("moins une vie");
+            
         }
 
     }
